@@ -1,0 +1,9 @@
+
+**** Build of configuration Debug for project BOOSTXL-EDUMKII_MicrophoneFFT_MSP432P401R ****
+
+"C:\\ti\\ccsv8\\utils\\bin\\gmake" -k -j 4 all -O 
+ 
+gmake[1]: 'BOOSTXL-EDUMKII_MicrophoneFFT_MSP432P401R.out' is up to date.
+gmake[1]: Nothing to be done for 'secondary-outputs'.
+
+**** Build Finished ****

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<?ccsproject version="1.0"?>
+<projectOptions>
+	<ccsVersion value="8.0.0"/>
+	<deviceVariant value="MSP432P401R"/>
+	<deviceFamily value="MSP432"/>
+	<deviceEndianness value="little"/>
+	<codegenToolVersion value="18.1.1.LTS"/>
+	<isElfFormat value="true"/>
+	<linkerCommandFile value="adc14_single_channel_external_reference_ccs.cmd"/>
+	<rts value="libc.a"/>
+	<createSlaveProjects value=""/>
+	<ignoreDefaultDeviceSettings value="true"/>
+	<templateProperties value="id=adc14_single_channel_external_reference.projectspec.adc14_single_channel_external_reference,"/>
+	<origin value="C:\Users\offba\Downloads\msp432_driverlib_3_21_00_05\msp432_driverlib_3_21_00_05\examples\MSP432P4xx\adc14\adc14_single_channel_external_reference\ccs\adc14_single_channel_external_reference.projectspec"/>
+	<filesToOpen value="adc14_single_channel_external_reference.c,"/>
+</projectOptions>

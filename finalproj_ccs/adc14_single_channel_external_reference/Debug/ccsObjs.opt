@@ -1,0 +1,1 @@
+"./adc14_single_channel_external_reference.obj" "./periph_config.obj" "./startup_msp432p401r_ccs.obj" "./system_msp432p401r.obj" "../adc14_single_channel_external_reference_ccs.cmd" "C:/Users/offba/Downloads/msp432_driverlib_3_21_00_05/msp432_driverlib_3_21_00_05/driverlib/MSP432P4xx/ccs/msp432p4xx_driverlib.lib" -llibc.a 

@@ -65,6 +65,16 @@
 
 #include <string.h>
 
+#define TEST_LENGTH_SAMPLES 1024
+#define SAMPLE_LENGTH 1024
+
+/* ------------------------------------------------------------------
+* Global variables for FFT Bin Example
+* ------------------------------------------------------------------- */
+uint32_t fftSize = SAMPLE_LENGTH;
+uint32_t ifftFlag = 0;
+uint32_t doBitReverse = 1;
+volatile arm_status status;
 volatile uint16_t adcResult;
 
 int main(void)
@@ -88,12 +98,63 @@ int main(void)
     ADC14_enableConversion();
     ADC14_toggleConversionTrigger();
 
+    /* FFT data/processing buffers*/
+    float hann[SAMPLE_LENGTH];
+    int16_t data_array1[SAMPLE_LENGTH];
+    int16_t data_array2[SAMPLE_LENGTH];
+    int16_t data_input[SAMPLE_LENGTH*2];
+    int16_t data_output[SAMPLE_LENGTH];
+
+    // Initialize Hann Window
+    int n;
+    for (n = 0; n < SAMPLE_LENGTH; n++)
+    {
+        hann[n] = 0.5 - 0.5 * cosf((2*PI*n)/(SAMPLE_LENGTH-1));
+    }
+
     /* Going to sleep */
     while (1)
     {
         PCM_gotoLPM0();
 
         //Fourier transform data and UART
+
+        int i = 0;
+
+        /* Computer real FFT using the completed data buffer */
+        if (switch_data & 1)
+        {
+            for (i=0; i<SAMPLE_LENGTH; i++)
+            {
+                data_array1[i] = (int16_t)(hann[i]*data_array1[i]);
+            }
+            arm_rfft_instance_q15 instance;
+            status = arm_rfft_init_q15(&instance, fftSize, ifftFlag, doBitReverse);
+
+            arm_rfft_q15(&instance, data_array1, data_input);
+        }
+        else
+        {
+            for (i=0; i<SAMPLE_LENGTH; i++)
+            {
+                data_array2[i] = (int16_t)(hann[i]*data_array2[i]);
+            }
+            arm_rfft_instance_q15 instance;
+            status = arm_rfft_init_q15(&instance, fftSize, ifftFlag, doBitReverse);
+
+            arm_rfft_q15(&instance, data_array2, data_input);
+        }
+
+        /* Calculate magnitude of FFT complex output */
+        for (i = 0; i < 2*SAMPLE_LENGTH; i+=2)
+        {
+            data_output[i/2] = (int32_t)(sqrtf((data_input[i] * data_input[i]) + (data_input[i+1] * data_input[i+1])));
+        }
+
+        q15_t maxValue;
+        uint32_t maxIndex = 0;
+
+        arm_max_q15(data_output, fftSize, &maxValue, &maxIndex);
 
     }
 }
